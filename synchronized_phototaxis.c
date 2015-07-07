@@ -30,13 +30,6 @@ void setup()
 
 void loop()
 {
-	// Wall robots do nothing.
-	if (kilo_uid == 0)
-	{
-	    set_color(RGB(0, 0, 0));
-		return;
-	}
-
 	bool local_new_message_flag = 0;
 	if (global_new_message_flag)
 	{
@@ -98,10 +91,6 @@ void phototaxis(float clock)
 				spinup_motors();
 				set_motors(0, kilo_turn_right);
 			}
-			else
-			{
-				set_motors(0, 0);
-			}
 		}
 		break;
 	case hi_on:
@@ -124,11 +113,6 @@ void phototaxis(float clock)
 				spinup_motors();
 				set_motors(kilo_turn_left, 0);
 			}
-			else
-			{
-				set_motors(0, 0);
-			}
-
 		}
 		break;
 	}
