@@ -30,69 +30,69 @@ void setup()
 
 void loop()
 {
-    bool local_new_message_flag = 0;
-    if (global_new_message_flag)
-    {
-        global_new_message_flag = false;
-        local_new_message_flag = true;
-    }
-    
-    float clock = synchronization(local_new_message_flag);
-    phototaxis(clock);
-    
-    local_new_message_flag = false;
+	bool local_new_message_flag = 0;
+	if (global_new_message_flag)
+	{
+		global_new_message_flag = false;
+		local_new_message_flag = true;
+	}
+	
+	float clock = synchronization(local_new_message_flag);
+	phototaxis(clock);
+	
+	local_new_message_flag = false;
 }
 
 void phototaxis(float clock)
 {
-	typedef enum {lo_on, lo_off, hi_on, hi_off} clock_state_t;
-	typedef enum {lt, rt} direction_t;
+    typedef enum {lo_on, lo_off, hi_on, hi_off} clock_state_t;
+    typedef enum {lt, rt} direction_t;
+    
+    static clock_state_t clock_state = hi_off;
+    static direction_t direction = rt;
+    
+    static uint16_t lo_threshold = 1024;
+    static uint16_t hi_threshold = 0;
+    
+    uint16_t current_light = get_averaged_ambient_light();
+    if (current_light < lo_threshold)
+    {
+        lo_threshold = round(0.95 * current_light);
+        hi_threshold = round(1.05 * current_light);
+    }
+    else if (current_light > hi_threshold)
+    {
+        lo_threshold = round(0.95 * current_light);
+        hi_threshold = round(1.05 * current_light);
+        
+        direction = 1 - direction;
+        set_motors(0, 0);
+    }
 
-	static clock_state_t clock_state = hi_off;
-	static direction_t direction = rt;
-
-	static uint16_t lo_threshold = 1024;
-	static uint16_t hi_threshold = 0;
-
-	uint16_t current_light = get_averaged_ambient_light();
-	if (current_light < lo_threshold)
-	{
-		lo_threshold = round(0.95 * current_light);
-		hi_threshold = round(1.05 * current_light);
-	}
-	else if (current_light > hi_threshold)
-	{
-		lo_threshold = round(0.95 * current_light);
-		hi_threshold = round(1.05 * current_light);
-
-		direction = 1 - direction;
-		set_motors(0, 0);
-	}
-
-	switch (clock_state)
-	{
-	case lo_on:
-		if (clock > 0.4)
-		{
-			clock_state = lo_off;
-
-			set_color(RGB(0, 0, 0));
-			set_motors(0, 0);
-		}
-		break;
-	case lo_off:
-		if (clock > 0.5)
-		{
-			clock_state = hi_on;
-
-			set_color(RGB(0, 0, 1));
-			if (direction == rt)
-			{
-				spinup_motors();
-				set_motors(0, kilo_turn_right);
-			}
-		}
-		break;
+    switch (clock_state)
+    {
+    case lo_on:
+        if (clock > 0.4)
+        {
+            clock_state = lo_off;
+            
+            set_color(RGB(0, 0, 0));
+            set_motors(0, 0);
+        }
+        break;
+    case lo_off:
+        if (clock > 0.5)
+        {
+            clock_state = hi_on;
+            
+            set_color(RGB(0, 0, 1));
+            if (direction == rt)
+            {
+                spinup_motors();
+                set_motors(0, kilo_turn_right);
+            }
+        }
+        break;
 	case hi_on:
 		if (clock > 0.9)
 		{
