@@ -30,17 +30,17 @@ void setup()
 
 void loop()
 {
-	bool local_new_message_flag = 0;
-	if (global_new_message_flag)
-	{
-		global_new_message_flag = false;
-		local_new_message_flag = true;
-	}
-	
-	float clock = synchronization(local_new_message_flag);
-	phototaxis(clock);
-	
-	local_new_message_flag = false;
+    bool local_new_message_flag = 0;
+    if (global_new_message_flag)
+    {
+        global_new_message_flag = false;
+        local_new_message_flag = true;
+    }
+    
+    float clock = synchronization(local_new_message_flag);
+    phototaxis(clock);
+    
+    local_new_message_flag = false;
 }
 
 void phototaxis(float clock)
