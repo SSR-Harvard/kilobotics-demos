@@ -19,28 +19,28 @@ uint16_t get_averaged_ambient_light();
 
 void setup()
 {
-	tx_message.type = NORMAL;
-
-	// Introduce a random delay so the robots don't become instantly
-	// synchronized by the run signal.
-	set_color(RGB(1, 1, 1));
-	delay(10 * rand_hard());
-	set_color(RGB(0, 0, 0));
+    tx_message.type = NORMAL;
+    
+    // Introduce a random delay so the robots don't become instantly
+    // synchronized by the run signal.
+    set_color(RGB(1, 1, 1));
+    delay(10 * rand_hard());
+    set_color(RGB(0, 0, 0));
 }
 
 void loop()
 {
-	bool local_new_message_flag = 0;
-	if (global_new_message_flag)
-	{
-		global_new_message_flag = false;
-		local_new_message_flag = true;
-	}
-
-	float clock = synchronization(local_new_message_flag);
-	phototaxis(clock);
-
-	local_new_message_flag = false;
+    bool local_new_message_flag = 0;
+    if (global_new_message_flag)
+    {
+        global_new_message_flag = false;
+        local_new_message_flag = true;
+    }
+    
+    float clock = synchronization(local_new_message_flag);
+    phototaxis(clock);
+    
+    local_new_message_flag = false;
 }
 
 void phototaxis(float clock)
