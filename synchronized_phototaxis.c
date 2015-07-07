@@ -93,49 +93,49 @@ void phototaxis(float clock)
             }
         }
         break;
-	case hi_on:
-		if (clock > 0.9)
-		{
-			clock_state = hi_off;
-
-			set_color(RGB(0, 0, 0));
-			set_motors(0, 0);
-		}
-		break;
-	case hi_off:
-		if (clock < 0.4)
-		{
-			clock_state = lo_on;
-
-			set_color(RGB(1, 0, 0));
-			if (direction == lt)
-			{
-				spinup_motors();
-				set_motors(kilo_turn_left, 0);
-			}
-		}
-		break;
-	}
+    case hi_on:
+        if (clock > 0.9)
+        {
+            clock_state = hi_off;
+            
+            set_color(RGB(0, 0, 0));
+            set_motors(0, 0);
+        }
+        break;
+    case hi_off:
+        if (clock < 0.4)
+        {
+            clock_state = lo_on;
+            
+            set_color(RGB(1, 0, 0));
+            if (direction == lt)
+            {
+                spinup_motors();
+                set_motors(kilo_turn_left, 0);
+            }
+        }
+        break;
+    }
 }
 
 uint16_t get_averaged_ambient_light()
 {
-	static const uint16_t NUM_SAMPLES = 500;
-
-	uint32_t sum = 0;
-	uint16_t sample_counter = 0;
-
-	while (sample_counter < NUM_SAMPLES)
-	{
-		int16_t sample = get_ambientlight();
-		if (sample != -1)
-		{
-			sum += sample;
-			sample_counter++;
-		}
-	}
-
-	return (uint16_t) (sum / NUM_SAMPLES);
+    static const uint16_t NUM_SAMPLES = 500;
+    
+    uint32_t sum = 0;
+    uint16_t sample_counter = 0;
+    
+    while (sample_counter < NUM_SAMPLES)
+    {
+        int16_t sample = get_ambientlight();
+        if (sample != -1)
+        {
+            sum += sample;
+            sample_counter++;
+        }
+    }
+    
+    return (uint16_t) (sum / NUM_SAMPLES);
 }
 
 float synchronization(bool new_message)
