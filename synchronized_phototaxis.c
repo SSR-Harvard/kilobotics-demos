@@ -140,82 +140,82 @@ uint16_t get_averaged_ambient_light()
 
 float synchronization(bool new_message)
 {
-	static uint32_t last_reset = 0;
-	static uint32_t reset_time = 0;
-	static long double reset_time_adjustment = 0;
-	static uint16_t number_of_messages = 0;
-
-	if ((kilo_ticks >= reset_time) || ((kilo_ticks - last_reset) > UINT16_MAX))
-	{
-		// 2 is an experimentally-chosen factor. + 1 to avoid division by 0.
-		reset_time_adjustment /= ((2 * number_of_messages) + 1);
-
-		last_reset = kilo_ticks;
-		reset_time = kilo_ticks + PERIOD + round(reset_time_adjustment);
-
-		reset_time_adjustment = 0;
-		number_of_messages = 0;
-	}
-
-	if (new_message)
-	{
-		number_of_messages++;
-		reset_time_adjustment += compute_rx_reset_time_adjustment(last_reset);
-	}
-
-	uint16_t ticks_until_reset = kilo_ticks - last_reset;
-	tx_message.data[1] = ((ticks_until_reset >> 8) & 0x00FF);
-	tx_message.data[0] = (ticks_until_reset & 0x00FF);
-
-	// Creates a sawtooth wave going from 0 to 1 during each period.
-	return ((float) (kilo_ticks - last_reset)) / (reset_time - last_reset);
+    static uint32_t last_reset = 0;
+    static uint32_t reset_time = 0;
+    static long double reset_time_adjustment = 0;
+    static uint16_t number_of_messages = 0;
+    
+    if ((kilo_ticks >= reset_time) || ((kilo_ticks - last_reset) > UINT16_MAX))
+    {
+        // 2 is an experimentally-chosen factor. + 1 to avoid division by 0.
+        reset_time_adjustment /= ((2 * number_of_messages) + 1);
+        
+        last_reset = kilo_ticks;
+        reset_time = kilo_ticks + PERIOD + round(reset_time_adjustment);
+        
+        reset_time_adjustment = 0;
+        number_of_messages = 0;
+    }
+    
+    if (new_message)
+    {
+        number_of_messages ++;
+        reset_time_adjustment += compute_rx_reset_time_adjustment(last_reset);
+    }
+    
+    uint16_t ticks_until_reset = kilo_ticks - last_reset;
+    tx_message.data[1] = ((ticks_until_reset >> 8) & 0x00FF);
+    tx_message.data[0] = (ticks_until_reset & 0x00FF);
+    
+    // Creates a sawtooth wave going from 0 to 1 during each period.
+    return ((float) (kilo_ticks - last_reset)) / (reset_time - last_reset);
 }
 
 int32_t compute_rx_reset_time_adjustment(uint32_t last_reset)
 {
-	uint16_t my_timer = kilo_ticks - last_reset;
-	uint16_t rx_timer = (((uint16_t) rx_message.data[1]) << 8)
-			| ((uint16_t) (rx_message.data[0]));
-
-	int32_t timer_discrepancy = rx_timer - my_timer;
-	uint16_t timer_discrepancy_abs = fabs(timer_discrepancy);
-	int8_t timer_discrepancy_sgn = copysignf(1.0, timer_discrepancy);
-
-	int32_t rx_reset_time_adjustment = 0;
-
-	if (timer_discrepancy_abs < (PERIOD / 2))
-	{
-		rx_reset_time_adjustment = - timer_discrepancy;
-	}
-	else
-	{
-		rx_reset_time_adjustment = timer_discrepancy_sgn
-				* ((PERIOD - timer_discrepancy_abs) % PERIOD);
-	}
-
-	return rx_reset_time_adjustment;
+    uint16_t my_timer = kilo_ticks - last_reset;
+    uint16_t rx_timer = (((uint16_t) rx_message.data[1]) << 8)
+        | ((uint16_t) (rx_message.data[0]));
+    
+    int32_t timer_discrepancy = rx_timer - my_timer;
+    uint16_t timer_discrepancy_abs = fabs(timer_discrepancy);
+    int8_t timer_discrepancy_sgn = copysignf(1.0, timer_discrepancy);
+    
+    int32_t rx_reset_time_adjustment = 0;
+    
+    if (timer_discrepancy_abs < (PERIOD / 2))
+    {
+        rx_reset_time_adjustment = - timer_discrepancy;
+    }
+    else
+    {
+        rx_reset_time_adjustment = timer_discrepancy_sgn
+            * ((PERIOD - timer_discrepancy_abs) % PERIOD);
+    }
+    
+    return rx_reset_time_adjustment;
 }
 
 message_t *message_tx()
 {
-	tx_message.crc = message_crc(&tx_message);
-	return &tx_message;
+    tx_message.crc = message_crc(&tx_message);
+    return &tx_message;
 }
 
 void message_rx(message_t *m, distance_measurement_t *d)
 {
-	global_new_message_flag = 1;
-	rx_message = *m;
+    global_new_message_flag = 1;
+    rx_message = *m;
 }
 
 int main()
 {
-	kilo_init();
-
-	kilo_message_rx = message_rx;
-	kilo_message_tx = message_tx;
-
-	kilo_start(setup, loop);
-
-	return 0;
+    kilo_init();
+    
+    kilo_message_rx = message_rx;
+    kilo_message_tx = message_tx;
+    
+    kilo_start(setup, loop);
+    
+    return 0;
 }
