@@ -135,7 +135,7 @@ uint16_t get_averaged_ambient_light()
         }
     }
     
-    return (uint16_t) (sum / NUM_SAMPLES);
+    return (sum / NUM_SAMPLES);
 }
 
 float synchronization(bool new_message)
