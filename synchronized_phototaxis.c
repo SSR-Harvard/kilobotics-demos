@@ -175,7 +175,7 @@ int32_t compute_rx_reset_time_adjustment(uint32_t last_reset)
 {
     uint16_t my_timer = kilo_ticks - last_reset;
     uint16_t rx_timer = (((uint16_t) rx_message.data[1]) << 8)
-        | ((uint16_t) (rx_message.data[0]));
+            | ((uint16_t) (rx_message.data[0]));
     
     int32_t timer_discrepancy = rx_timer - my_timer;
     uint16_t timer_discrepancy_abs = fabs(timer_discrepancy);
@@ -190,7 +190,7 @@ int32_t compute_rx_reset_time_adjustment(uint32_t last_reset)
     else
     {
         rx_reset_time_adjustment = timer_discrepancy_sgn
-            * ((PERIOD - timer_discrepancy_abs) % PERIOD);
+                * ((PERIOD - timer_discrepancy_abs) % PERIOD);
     }
     
     return rx_reset_time_adjustment;
