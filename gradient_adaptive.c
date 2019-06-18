@@ -1,3 +1,12 @@
+/* 6/18/19: Written by Gabriel Seymour in the 2019 Harvard SEAS REU
+ * This program runs on the kilobots to provide an adaptive gradient (also
+ * known as hop count gradient) in which a bot will reset its gradient to
+ * the highest value (255) if it hasn't recieved a message from a bot with a
+ * gradient < its gradient. The seed's LED lights up as white while the other
+ * bots light up depending on their gradient modulo 5. A bot isolated from
+ * others will not recieve a gradient. By default, it will have gradient value
+ * 255 and a yellow color.
+ */
 #include <kilolib.h>
 
 #define SEED_ID 42 // kilo_uid for the seed
