@@ -17,11 +17,11 @@
 
 #define PERIOD 64    // Define how often a bot should change direction
 
-int cur_motion = 0;         // Keep track of previous motion
+uint8_t cur_motion = 0;         // Keep track of previous motion
 uint32_t last_changed = 0;  // Keep track of period
-int new_message = 0;        // New message flag
-int random_number = 0;      // Keep some space to define random number
-int dice = 0;               // Keep some space to define random dice number
+uint8_t new_message = 0;        // New message flag
+uint8_t random_number = 0;      // Keep some space to define random number
+uint8_t dice = 0;               // Keep some space to define random dice number
 message_t transmit_msg; // message struct for sending message
 message_t rcvd_message; // message struct for recieving message
 
