@@ -12,14 +12,14 @@
  */
 #include <kilolib.h>
 
-#define PERIOD 64        // Flash cycle of length 64 clock cycles
+#define PERIOD 32*2        // Flash cycle of length 64 clock cycles
 uint32_t last_reset;     // To reset clock cycle
 uint32_t flash_reset;    // To keep the flash time consistent
 uint32_t rcvd_time = 0;  // Neighbors' location in the flash cycle
 message_t message;       // Message struct for sending message
 message_t rcvd_message;  // Message struct for recieving message
 int32_t sumSync = 0;     // The total of how far the neighbors' location is from local bot
-uint32_t numSync = 0;    // Number of recieved locations in current flash cycle
+int32_t numSync = 0;    // Number of recieved locations in current flash cycle
 uint8_t new_message = 0; // New message flag
 int32_t deltaT = 0;      // Local location in flash cycle - recieved location in flash cycle
 float avgDeltaT;         // Avg(deltaT).
@@ -66,13 +66,13 @@ void loop() {
 
     // If we have gone through the entire flash cycle, flash
     if (kilo_ticks >= (last_reset + PERIOD)) {
-        set_color(RGB(3, 0, 0)); // Bright red
+        set_color(RGB(1, 1, 0)); // Bright red
 
         // Cast the average of deltaT as a float and add 0.5. This will effectively
         // round the number when avgDeltaT is added to an int
         avgDeltaT = (float)(sumSync/numSync) + 0.5;
-
-        // Either lengthen or shorten the next clock cycle
+        
+	// Either lengthen or shorten the next clock cycle
         last_reset = kilo_ticks - avgDeltaT;
         flash_reset = kilo_ticks; // To keep the flash time consistent
         sumSync = 0; // Reset the aggregate total so the next flash cycle starts at 0
