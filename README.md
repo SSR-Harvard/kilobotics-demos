@@ -6,6 +6,7 @@
 
 [Documentation](https://www.kilobotics.com/documentation)
 
+[Hex File Compiler documentation](https://diode.group.shef.ac.uk/kilobots/index.php/Getting_Started:_How_to_work_with_kilobots)
 ---
 
 
