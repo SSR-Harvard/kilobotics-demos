@@ -1,8 +1,8 @@
 # Kilobotics Demos
 
-[Kilobotic Labs:](https://www.kilobotics.com/labs)
+[Kilobotic Labs](https://www.kilobotics.com/labs)
 
-[Kilobot Library:](https://www.kilobotics.com/docs/index.html)
+[Kilobot Library](https://www.kilobotics.com/docs/index.html)
 
 [Documentation](https://www.kilobotics.com/documentation)
 
