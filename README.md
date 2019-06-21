@@ -1,6 +1,6 @@
 # Kilobotics Demos
 
-Labs: [Kilobotic Labs]{https://www.kilobotics.com/labs}
+Labs: [Kilobotic Labs](https://www.kilobotics.com/labs)
 
 Simulator code: [Kilosim](https://github.com/jtebert/kilosim)
 
@@ -22,4 +22,3 @@ This is scripts for running experiments
 - Run it! Paths are relative (such as used in your JSON config files). So to have them function correctly, run your resulting executable from *within* your base directory. For example, `cd my_exp` before running `./bin/experiment`
   (You can actually do `make BASE=my_exp run`, but it'll fail with relative paths for things like JSON config file)
 - Clean up with `make clean` or `make BASE=my_exp clean`
-
