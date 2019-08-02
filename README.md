@@ -12,6 +12,7 @@
 
 ## Compiling Hex Files
 
+- First, download the avr libraries seen [here for mac](https://github.com/osx-cross/homebrew-avr). On mac, I had first run 'brew tap osx-cross/avr', and then 'brew install avr-gcc'
 - Put your source file in the source directory, /kilobotics-demos/src/
 - In the /kilobotics-demos/ directory, run "make BASE=your_file", where your_file.c is the aforementioned source file in /src/
 - your_file.hex will be compiled in the /kilobotics-demos/bin/ folder
