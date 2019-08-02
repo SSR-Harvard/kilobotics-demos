@@ -1,13 +1,11 @@
 
-BASE = 
+BASE = .
 .PHONY: docs $(BASE)
 KILOLIB = ./TemplateForCompiling/build/kilolib.a
 TEST = ./TemplateForCompiling/
 SRC = src
 BIN = bin
-$(info$(shell mkdir -p $(BIN)))
 $(BASE): ./$(BIN)/$(BASE).elf ./$(BIN)/$(BASE).hex ./$(BIN)/$(BASE).lss
-
 
 CC = avr-gcc
 AVRAR = avr-ar
@@ -37,10 +35,6 @@ EEPROM = -j .eeprom --set-section-flags=.eeprom="alloc,load" --change-section-lm
 %.bin: %.elf
 	$(AVROC) -O binary $(FLASH) $< $@
 
-
-ifndef BASE
-$(error BASE is not set)
-endif
 
 message_send.o: message_send.S
 	$(CC) $(CFLAGS) -c -o $@ $<
