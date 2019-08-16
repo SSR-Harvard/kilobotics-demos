@@ -9,6 +9,15 @@
 [Hex Compiler](https://diode.group.shef.ac.uk/kilobots/index.php/Getting_Started:_How_to_work_with_kilobots)
 ---
 
+## Included Demos
+
+### Sync
+### Adaptive Gradient
+### Disperse 
+### Phototaxis
+### Synchronized Phototaxis
+### Morph
+### Herd
 
 ## Compiling Hex Files
 
