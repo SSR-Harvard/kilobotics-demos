@@ -67,7 +67,7 @@ void loop() {
     // If we have gone through the entire flash cycle, flash
     if (kilo_ticks >= (last_reset + PERIOD)) {
         set_color(RGB(1, 0, 0)); // Bright red
-
+	spinup_motors(); // Add some vibration	
         // Cast the average of deltaT as a float and add 0.5. This will effectively
         // round the number when avgDeltaT is added to an int
         avgDeltaT = (float)(sumSync/numSync) + 0.5;
@@ -80,6 +80,7 @@ void loop() {
 
     } else if (kilo_ticks > flash_reset + PERIOD/8){ // Flash for PERIOD/N clock cycles
         set_color(RGB(0, 0, 0));
+	set_motors(0, 0);
     }
 }
 
